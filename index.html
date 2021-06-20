@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid-19 Website</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+    <script src="https://maps.mapmyindia.com/covid-places/showNearbyCovidPlacesOnMap.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Google Sans" rel="stylesheet">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="style.css">
+
+<section class="sec1" >
+  <div>
+    <img src="https://images.app.goo.gl/bgcGYdUmhXgWJgQe8" alt="" >
+  </div>
+  <div>
+    <h3>Covid19 Quiz</h3>
+    <p>Take our quiz to see if you have got all the right information about COVID-19 and how to look after your health..</p>
+     <button class="btn btn1 continue-btn" >Continue</button>
+  </div>
+</section>
+<!-- SUMIT ASHISH -->
+<section class="sec2" >
+  <div>
+   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQwmqylT3hlUqqVnku_VbEJzd_x4aur7IvOHg&usqp=CAU" alt="" >
+  </div>
+   <p>Welcome to the COVID-19 Quiz! Please select your answer and click submit </p>
+  <div>
+    <input type="text" class="input" placeholder="Enter Your Name" >
+  </div>
+  <button class="btn btn1 start-quiz" >Start Quiz</button>
+</section>
+
+<section class="sec3" >
+  <div class="box" >
+    <div class="box__header" >
+      <div class="index" >1/10</div>
+      <div class="toast" ></div>
+      <div class="time" >00:01</div>
+    </div>
+    <h3 class="question" ></h3>
+    <ul class="quiz" >
+    </ul>
+    <button class="submit">Continue</button>
+  </div>
+</section>
+
+<section class="sec4">
+  <div class="des" >
+ 
+ </div>
+  
+  <h4> This quiz is developed by SUMIT ASHISH,NIT Patna</h4>
+  <h4> Contact Us:-sumita.ug18.ec@nitp.ac.in</h4>
+  <h3> Your Certificate:-</h3>
+  
+  <div class="certificate" >
+    <h4>Covid-19 Quiz</h4>
+    <h8>This certificate is proudly presented to</h7>
+    <p id="name">SUMIT ASHISH</p>
+    <p id="score">Score: </p>
+  </div>
+  <h1 class="great" >Excellent</h1>
+  <button class="check-ans btn" >Check Your Answers</button>
+</section>
+<section class="sec5" >
+  <div class="flex" >
+  <h2>Your Answers</h2>
+  <h2 class="sc" ></h2>
+  </div>
+  <p class="mb-1" >If your answer is wrong then we cannot show the correct answer. This is Our private policy</p>
+  <ul class="ans-list" >
+  </ul>
+  <button class="btn back-btn" >Back</button>
+</section>
+<!-- script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+//Do not see the answer
+ const ques=[
+{que:"How is COVID-19 passed on?",option:["Through droplets that come from your mouth and nose when you cough or breathe out","In sexual fluids, including semen, vaginal fluids or anal mucous","By drinking unclean water","All of the above"],crt:0},
+
+{que:"What are the common symptoms of COVID-19? ",option:["A new and continuous cough","Fever","Tiredness","All of the above"],crt:3},
+
+
+ {que:"Can you always tell if someone has COVID-19? ",option:["No – not everyone with COVID-19 has symptoms",
+"Yes – it will be obvious, a person with COVID-19 coughs a lot","Yes – you can tell just by where a person comes from, their race and ethnicity"],crt:1},
+
+{que:"Can washing your hands protect you from COVID-19",option:["Yes – but only if you use a strong bleach",
+"Yes – normal soap and water or hand sanitizer is enough","No – Washing your hands doesn’t stop COVID-19"],crt:1},
+
+{que:"Which of the following people is COVID-19 more dangerous for?",option:["Children","Older people – especially those aged 70 and above","People with certain underlying health conditions","Both B and C"],crt:3},
+
+ {que:"When should fabric face masks be worn?",option:["On public transport","In confined or crowded spaces","In small shops","All of the above"],crt:3},
+
+  {que:"Can COVID-19 be cured?",option:["Yes – Hot drinks can cure COVID-19","No – COVID-19 is a death sentence",
+"No – but most people get better by themselves"],crt:1},
+
+{que:"Which of the following is an example of physical distancing? ",option:["You stop going to crowded places and visiting other people’s houses","You stop talking to the people you live with","You stop speaking to your friends on the phone"],crt:0},
+
+{que:"How can people living with HIV protect themselves from COVID-19",option:["Wash their hands regularly and follow the physical distancing advice","Keep taking their antiretroviral treatment","Exercise regularly, eat well and look after their mental health","All of the above"],crt:3},
+
+
+ {que:"In India, when did the second phase of COVID-19 vaccination start?",option:["December 2020","January 2021","February 2021","March 2021"],crt:3}];
+
+ 
+
+ let score = 0, index = 0, name = "",answer = [], times;
+ 
+ 
+ $(document).ready(function(){
+   $(".continue-btn").click(function(){
+     $(".sec1").fadeOut();
+     $(".sec2").fadeIn();
+   });
+   $(".start-quiz").click(function(){
+     name = $(".input").val();
+     if(name === '') {
+      alert("Please Enter Your Name")
+      return;
+     }
+     $(".sec2").fadeOut();
+     $(".sec3").fadeIn();
+     newQuestion()
+     startTimes()
+   });
+   $(".quiz").on("click","li", function(){
+     $(".quiz .select").removeClass("select");
+     $(this).addClass("select");
+   })
+   $(".submit").click(function(){
+    const select = $(".quiz li").hasClass("select");
+    if(!select) {
+     alert("please select any option");
+     return;
+    }
+    const key = $(".quiz .select").attr("data-key");
+    checkAns(key)
+   })
+   $(".check-ans").click(function(){
+     $(".sec4").fadeOut();
+     $(".sec5").fadeIn();
+     showYourAns()
+   });
+   $(".back-btn").click(function(){
+     $(".sec5").fadeOut();
+     $(".sec4").fadeIn();
+   });
+   
+ });
+ 
+ let s = 0, m = "0"+0;
+ function showTime(){
+  s++
+  if(s >= 60) {
+   s = 0;
+   m++
+   m = m < 10 ? "0" + m : m;
+  }
+  s = s < 10 ? "0" + s : s;
+  $(".time").text(m+":"+s);
+ }
+ function startTimes(){
+   times = setInterval(showTime,1000)
+ }
+ function newQuestion(){
+   const que = ques[index];
+   showIndex()
+   $(".question").text(que.que);
+   $(".quiz").html("");
+   que.option.forEach((q,i) => {
+    const li = document.createElement('li');
+    li.setAttribute('data-key',i);
+    li.textContent = q;
+    $(".quiz").append(li)
+   })
+ }
+ 
+ function checkAns(key) {
+  const que = ques[index];
+  answer.push(key);
+  if(que.crt == key) {
+   score++;
+   makeToast("Right")
+  } else{
+   makeToast("Wrong")
+  }
+  index++;
+  if(index < ques.length) {
+   newQuestion()
+  } else{
+   showResult()
+   clearInterval(times)
+  }
+ }
+ 
+ function showIndex(){
+  $(".index").text(1 + index+"/"+ques.length)
+ }
+ 
+ function showResult(){
+  $(".sec3").fadeOut();
+  $(".sec4").fadeIn();
+  $("#name").text(name);
+  $(".name").text(name);
+  const scores = Math.round(score / ques.length * 100);
+  const grt = scores < 25 ? "Nice" : scores < 50 ? "Good" : scores < 76 ? "Very Good" : "Excellent";
+  $("#score").text("Score : "+ scores +"%");
+  $("#id").text("Test Id : "+ Math.ceil(Math.random() * 20000));
+  let date = new Date();
+  let today = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+  $("#date").text(today);
+  $(".great").text(grt);
+ }
+
+ 
+ function showYourAns() {
+  $(".ans-list").html("");
+  $(".sc").text(score+ "/"+ques.length)
+  ques.forEach((que,i) => {
+   const li = document.createElement('li');
+   const p = document.createElement('p');
+   const span = document.createElement('span');
+   p.textContent = 1+i +" : "+ que.que;
+   const chrt = que.crt == answer[i] ? '👉' : '❌';
+   span.textContent = chrt +" "+ que.option[answer[i]];
+   const cls = que.crt == answer[i] ? 'green' : 'red';
+   span.classList.add(cls);
+   li.appendChild(p)
+   li.appendChild(span)
+   $(".ans-list").append(li);
+  })
+ }
+ 
+ function makeToast(txt) {
+  $(".toast").text(txt);
+  $(".toast").fadeIn();
+  setTimeout(() => $(".toast").fadeOut(),1000)
+ }
+ 
+</script>
+</body>
+</html>
